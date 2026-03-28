@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Fetch</title>
+</head>
+<body>
+    <h1>Test Backend Connection</h1>
+    <button onclick="testFetch()">Test Prediction API</button>
+    <div id="result"></div>
+
+    <script>
+        async function testFetch() {
+            const testData = {
+                Study_Hours_Per_Day: 7.0,
+                Extracurricular_Hours_Per_Day: 2.0,
+                Sleep_Hours_Per_Day: 7.5,
+                Social_Hours_Per_Day: 2.5,
+                Physical_Activity_Hours_Per_Day: 1.0,
+                GPA: 3.0
+            };
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+
+                const result = await response.json();
+                document.getElementById('result').innerHTML = 
+                    '<p>Status: ' + response.status + '</p>' +
+                    '<p>Response: ' + JSON.stringify(result) + '</p>';
+            } catch (error) {
+                document.getElementById('result').innerHTML = 
+                    '<p>Error: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>
